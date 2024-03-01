@@ -1,4 +1,4 @@
-class Settings():
+class Settings:
     def __init__(self):
         self.screen_width = 1280
         self.screen_height = 720
@@ -9,3 +9,4 @@ class Settings():
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_colour = (60, 60, 60)
+        self.bullets_allowed = 3

@@ -9,8 +9,7 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
     elif event.key == pygame.K_LEFT:
         ship.moving_left = True
     elif event.key == pygame.K_SPACE:
-        new_bullet = Bullet(ai_settings, screen, ship)
-        bullets.add(new_bullet)
+        fire_bullets(ai_settings, screen, ship, bullets)
 
 
 def check_keyup_events(event, ship):
@@ -36,3 +35,16 @@ def update_screen(ai_settings, screen, ship, bullets):
         bullet.draw_bullet()
     ship.blitme()
     pygame.display.flip()
+
+
+def update_bullets(bullets):
+    bullets.update()
+    for bullet in bullets.copy():  # Verifica se os projéteis saíram da tela
+        if bullet.rect.bottom <= 0:
+            bullets.remove(bullet)  # Caso sim, o laço for irá apagá-las  para que não consuma muita memória
+
+
+def fire_bullets(ai_settings, screen, ship, bullets):   # Função que limitará os projéteis disparados pela espaçonave
+    if len(bullets) < ai_settings.bullets_allowed:
+        new_bullet = Bullet(ai_settings, screen, ship)
+        bullets.add(new_bullet)

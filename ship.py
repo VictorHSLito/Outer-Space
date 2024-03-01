@@ -1,7 +1,7 @@
 import pygame
 
 
-class Ship():
+class Ship:
     def __init__(self, ai_settings, screen):
         self.screen = screen
         self.ai_settings = ai_settings
@@ -21,5 +21,6 @@ class Ship():
             self.center -= self.ai_settings.ship_speed_factor
 
         self.rect.centerx = self.center
+
     def blitme(self):
         self.screen.blit(self.image, self.rect)
