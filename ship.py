@@ -19,11 +19,11 @@ class Ship:
         self.moving_down = False
 
     def update(self):
-        if self.moving_right and self.rect.right < self.screen_rect.right:
+        if self.moving_right and self.rect.right < self.screen_rect.right:  # Limita a espaçonave de ultrapassar a lateral direita
             self.centerx += self.ai_settings.ship_speed_factor
-        if self.moving_left and self.rect.left > 0:
+        if self.moving_left and self.rect.left > 0:  # Limita a espaçonave de ultrapassar a lateral esquerda
             self.centerx -= self.ai_settings.ship_speed_factor
-        if self.moving_up and self.rect.top > self.screen_rect.top: # Limita a espaçonave de ultrapassar a borda superior
+        if self.moving_up and self.rect.top > self.screen_rect.top:  # Limita a espaçonave de ultrapassar a borda superior
             self.centery -= 1
         if self.moving_down and self.rect.bottom < self.screen_rect.bottom: # Limita a espaçonave de ultrapassar a borda inferior
             self.centery += 1
@@ -31,5 +31,5 @@ class Ship:
         self.rect.centerx = self.centerx
         self.rect.centery = self.centery
 
-    def blitme(self):
+    def blitme(self):  # Desenha a espaçonave na sua posição atual
         self.screen.blit(self.image, self.rect)
