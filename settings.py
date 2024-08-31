@@ -1,7 +1,7 @@
 class Settings:  # Classe das principais configurações do jogo
     def __init__(self):
         self.screen_width = 1280  # Atributo que define a largura da tela
-        self.screen_height = 720 # Atributo que define a altura da tela
+        self.screen_height = 720  # Atributo que define a altura da tela
         self.background_colour = (230, 230, 230)  # Atributo que define a cor de fundo do jogo
         self.ship_speed_factor = 1.5  # Atributo que define a velocidade da espaçonave
 
