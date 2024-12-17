@@ -65,17 +65,17 @@ def fire_bullets(ai_settings, screen, ship, bullets):  # Função que limitará 
 
 def create_fleet(ai_settings, screen, ship, aliens):
     alien = Alien(ai_settings, screen)
-    number_alien_x = get_number_aliens_x(ai_settings, alien.rect.width)
+    number_aliens_x = get_number_aliens_x(ai_settings, alien.rect.width)
     number_rows = get_number_rows(ai_settings, ship.rect.height, alien.rect.height)
 
     for row_number in range(number_rows):
-        for alien_number in range(number_alien_x):  #Loop que criará a frota de alienigenas
+        for alien_number in range(number_aliens_x):  #Loop que criará a frota de alienigenas
             create_alien(ai_settings, screen, aliens, alien_number, row_number)
 
 
 def get_number_aliens_x(ai_settings, alien_width):
     available_space_x = ai_settings.screen_width - 4 * alien_width  # Limita até onde os alienigenas podem chegar na borda horizontal
-    number_alien_x = int(available_space_x / 4 * alien_width)  # Calcula quantos alienigenas cabem na tela
+    number_alien_x = int(available_space_x / (4 * alien_width))  # Calcula quantos alienigenas cabem na tela
     return number_alien_x
 
 
@@ -95,5 +95,22 @@ def get_number_rows(ai_settings, ship_height, alien_height):
     return number_rows
 
 
-def update_aliens(aliens):
+def update_aliens(ai_settings, aliens):
+    check_fleet_edges(ai_settings, aliens)  # Verifica se a frota está em uma borda, então atualiza as posições
     aliens.update()
+
+
+def check_fleet_edges(ai_settings, aliens):
+    """Verifica se algum alienígena alcançou uma borda"""
+    for alien in aliens.sprites():
+        if alien.check_edges():
+            change_fleet_direction(ai_settings, aliens)
+            break
+
+
+def change_fleet_direction(ai_settings, aliens):
+    """Faz toda frota descer e muda a direção"""
+    for alien in aliens.sprites():
+        alien.rect.y += ai_settings.fleet_drop_speed
+    ai_settings.fleet_direction *= - 1
+
