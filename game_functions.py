@@ -4,7 +4,8 @@ from bullet import Bullet
 from alien import Alien
 
 
-def check_keydown_events(event, ai_settings, screen, ship, bullets):  # Função responsável pela ações de pressionamento de teclas
+def check_keydown_events(event, ai_settings, screen, ship,
+                         bullets):  # Função responsável pela ações de pressionamento de teclas
     if event.key == pygame.K_RIGHT:  # Define o atributo "moving_right" da espaçonave como True
         ship.moving_right = True
     elif event.key == pygame.K_LEFT:  # Define o atributo "moving_left" da espaçonave como True
@@ -56,7 +57,7 @@ def update_bullets(bullets):  # Função responsável pela atualizações de pro
             bullets.remove(bullet)  # Caso sim, o laço "for" irá apagá-las para que não consuma muita memória
 
 
-def fire_bullets(ai_settings, screen, ship, bullets):   # Função que limitará os projéteis disparados pela espaçonave
+def fire_bullets(ai_settings, screen, ship, bullets):  # Função que limitará os projéteis disparados pela espaçonave
     if len(bullets) < ai_settings.bullets_allowed:
         new_bullet = Bullet(ai_settings, screen, ship)
         bullets.add(new_bullet)
@@ -68,27 +69,31 @@ def create_fleet(ai_settings, screen, ship, aliens):
     number_rows = get_number_rows(ai_settings, ship.rect.height, alien.rect.height)
 
     for row_number in range(number_rows):
-        for alien_number in range(number_alien_x): #Loop que criará a frota de alienigenas
+        for alien_number in range(number_alien_x):  #Loop que criará a frota de alienigenas
             create_alien(ai_settings, screen, aliens, alien_number, row_number)
 
 
 def get_number_aliens_x(ai_settings, alien_width):
-    available_space_x = ai_settings.screen_width - 2 * alien_width  # Limita até onde os alienigenas podem chegar na borda horizontal
-    number_alien_x = int(available_space_x / 2 * alien_width)  # Calcula quantos alienigenas cabem na tela
+    available_space_x = ai_settings.screen_width - 4 * alien_width  # Limita até onde os alienigenas podem chegar na borda horizontal
+    number_alien_x = int(available_space_x / 4 * alien_width)  # Calcula quantos alienigenas cabem na tela
     return number_alien_x
 
 
 def create_alien(ai_settings, screen, aliens, alien_number, row_number):
     alien = Alien(ai_settings, screen)
     alien_width = alien.rect.width
-    alien.x = alien_width + 2 * alien_width * alien_number  # Define o espaço entre os alienigenas, no caso o espaço é de 2 alienigenas
+    alien.x = alien_width + 2.5 * alien_width * alien_number  # Define o espaço entre os alienigenas, no caso o espaço é de 2 alienigenas
     alien.rect.x = alien.x
-    alien.rect.y = alien.rect.height + 2*alien.rect.height*row_number
+    alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
     aliens.add(alien)
 
 
 def get_number_rows(ai_settings, ship_height, alien_height):
-        """"Determina o número de linhas de alienigenas que cabem na tela"""
-        available_space_y = (ai_settings.screen_height - (3*alien_height) - ship_height)
-        number_rows = int(available_space_y/(2*alien_height))
-        return number_rows
+    """"Determina o número de linhas de alienigenas que cabem na tela"""
+    available_space_y = (ai_settings.screen_height - (3 * alien_height) - ship_height)
+    number_rows = int(available_space_y / (3 * alien_height))
+    return number_rows
+
+
+def update_aliens(aliens):
+    aliens.update()

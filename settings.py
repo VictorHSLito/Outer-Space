@@ -10,3 +10,7 @@ class Settings:  # Classe das principais configurações do jogo
         self.bullet_height = 15  # Atributo que define o tamanho dos projéteis
         self.bullet_colour = (60, 60, 60)  # Atributo que define a cor dos projéteis
         self.bullets_allowed = 5  # Atributo que define a quantidade máxima de projéteis na tela
+
+        self.alien_speed_factor = 1  # Atributo que define a velocidade de movimento dos alienígenas
+        self.fleet_drop_speed = 10
+        self.fleet_direction = 1  # 1 representa para direita e -1 para a esquerda
