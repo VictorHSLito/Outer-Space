@@ -2,6 +2,7 @@ import sys
 import pygame
 from bullet import Bullet
 from alien import Alien
+from time import sleep
 
 
 def check_keydown_events(event, ai_settings, screen, ship,
@@ -55,10 +56,7 @@ def update_bullets(ai_settings, screen, ship, aliens, bullets):  # Função resp
     for bullet in bullets.copy():  # Verifica se os projéteis saíram da tela
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)  # Caso sim, o laço "for" irá apagá-las para que não consuma muita memória
-    colisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
-    if len(aliens) == 0:
-        bullets.empty()
-        create_fleet(ai_settings, screen, ship, aliens)
+    check_bullets_alien_collisions(ai_settings, screen, ship, aliens, bullets)
 
 
 def fire_bullets(ai_settings, screen, ship, bullets):  # Função que limitará os projéteis disparados pela espaçonave
@@ -99,9 +97,23 @@ def get_number_rows(ai_settings, ship_height, alien_height):
     return number_rows
 
 
-def update_aliens(ai_settings, aliens):
+def update_aliens(ai_settings, stats, screen, ship, aliens, bullets):
     check_fleet_edges(ai_settings, aliens)  # Verifica se a frota está em uma borda, então atualiza as posições
     aliens.update()
+
+    if pygame.sprite.spritecollideany(ship, aliens):
+        ship_hit(ai_settings, stats, screen, ship, aliens, bullets)
+
+
+def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
+    stats.ships_left -= 1
+
+    aliens.empty()
+    bullets.empty()
+
+    create_fleet(ai_settings, screen, ship, aliens)
+    ship.center_ship()
+    sleep(0.5)
 
 
 def check_fleet_edges(ai_settings, aliens):
@@ -118,3 +130,10 @@ def change_fleet_direction(ai_settings, aliens):
         alien.rect.y += ai_settings.fleet_drop_speed
     ai_settings.fleet_direction *= - 1
 
+
+def check_bullets_alien_collisions(ai_settings, screen, ship, aliens, bullets):
+    """Verifica a colisões entre projéteis e alienígenas"""
+    collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+    if len(aliens) == 0:
+        bullets.empty()
+        create_fleet(ai_settings, screen, ship, aliens)

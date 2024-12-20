@@ -4,6 +4,7 @@ class Settings:  # Classe das principais configurações do jogo
         self.screen_height = 720  # Atributo que define a altura da tela
         self.background_colour = (230, 230, 230)  # Atributo que define a cor de fundo do jogo
         self.ship_speed_factor = 1.5  # Atributo que define a velocidade da espaçonave
+        self.ship_limit = 3
 
         self.bullet_speed_factor = 1  # Atributo que define a velocidade dos projéteis
         self.bullet_width = 3  # Atributo que define a largura dos projéteis
