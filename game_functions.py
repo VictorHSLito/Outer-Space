@@ -32,17 +32,36 @@ def check_keyup_events(event, ship):  # Função responsável pela ações de "s
         ship.moving_down = False
 
 
-def check_events(ai_settings, screen, ship, bullets):  # Função responsável pela detecção de eventos
+def check_events(ai_settings, screen, stats, play_button, ship, aliens, bullets):  # Função responsável pela detecção de eventos
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y)
         elif event.type == pygame.KEYDOWN:
             check_keydown_events(event, ai_settings, screen, ship, bullets)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
 
 
-def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button):  # Função responsável pela atualizações de tela no jogo
+def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y):
+    button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
+    if button_clicked and not stats.game_active:
+        if play_button.rect.collidepoint(mouse_x, mouse_y):
+            pygame.mouse.set_visible(False)
+            stats.reset_stats()
+            stats.game_active = True
+
+            aliens.empty()
+            bullets.empty()
+
+            create_fleet(ai_settings, screen, ship, aliens)
+            ship.center_ship()
+
+
+def update_screen(ai_settings, screen, stats, ship, aliens, bullets,
+                  play_button):  # Função responsável pela atualizações de tela no jogo
     screen.fill(ai_settings.background_colour)
     for bullet in bullets.sprites():
         bullet.draw_bullet()
@@ -54,7 +73,8 @@ def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button
     pygame.display.flip()
 
 
-def update_bullets(ai_settings, screen, ship, aliens, bullets):  # Função responsável pela atualizações de projéteis no jogo
+def update_bullets(ai_settings, screen, ship, aliens,
+                   bullets):  # Função responsável pela atualizações de projéteis no jogo
     bullets.update()
     for bullet in bullets.copy():  # Verifica se os projéteis saíram da tela
         if bullet.rect.bottom <= 0:
