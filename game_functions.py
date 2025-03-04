@@ -42,12 +42,15 @@ def check_events(ai_settings, screen, ship, bullets):  # Função responsável p
             check_keyup_events(event, ship)
 
 
-def update_screen(ai_settings, screen, ship, aliens, bullets):  # Função responsável pela atualizações de tela no jogo
+def update_screen(ai_settings, screen, stats, ship, aliens, bullets, play_button):  # Função responsável pela atualizações de tela no jogo
     screen.fill(ai_settings.background_colour)
     for bullet in bullets.sprites():
         bullet.draw_bullet()
     ship.blitme()
     aliens.draw(screen)
+
+    if not stats.game_active:
+        play_button.draw_button()
     pygame.display.flip()
 
 
