@@ -22,6 +22,8 @@ def check_keydown_events(event, ai_settings, screen, stats, ship,
         sys.exit()
     elif event.key == pygame.K_p:
         start_game_from_key(ai_settings, screen, stats, ship, aliens, bullets)
+    elif event.key == pygame.K_F11:
+        enter_or_exit_full_screen_mode(ai_settings)
 
 
 def check_keyup_events(event, ship):  # Função responsável pela ações de "soltura" de teclas
@@ -195,3 +197,13 @@ def start_game_from_key(ai_settings, screen, stats, ship, aliens, bullets):
 
         create_fleet(ai_settings, screen, ship, aliens)
         ship.center_ship()
+
+
+def enter_or_exit_full_screen_mode(ai_settings):
+    if ai_settings.game_on_full_screen:
+        pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_height))
+        ai_settings.game_on_full_screen = False
+    else:
+        pygame.display.set_mode((ai_settings.monitor_screen_widht, ai_settings.monitor_screen_height),
+                                pygame.FULLSCREEN)
+        ai_settings.game_on_full_screen = True
