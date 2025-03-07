@@ -6,7 +6,7 @@ class Settings:  # Classe das principais configurações do jogo
         self.screen_width = 1280  # Atributo que define a largura da tela
         self.screen_height = 720  # Atributo que define a altura da tela
         self.info = pygame.display.Info()
-        self.monitor_screen_widht = self.get_dimensions_of_widht()
+        self.monitor_screen_widht = self.get_dimensions_of_width()
         self.monitor_screen_height = self.get_dimensions_of_height()
         self.game_on_full_screen = False
         self.background_colour = (230, 230, 230)  # Atributo que define a cor de fundo do jogo
@@ -28,12 +28,14 @@ class Settings:  # Classe das principais configurações do jogo
         self.bullet_speed_factor = 1.75  # Atributo que define a velocidade dos projéteis
         self.fleet_direction = 1  # 1 representa para direita e -1 para a esquerda
 
+        self.alien_points = 50
+
     def increase_speed(self):
         self.ship_speed_factor *= self.speedup_scale
         self.alien_speed_factor *= self.speedup_scale
         self.alien_speed_factor *= self.speedup_scale
 
-    def get_dimensions_of_widht(self):
+    def get_dimensions_of_width(self):
         self.monitor_screen_widht = self.info.current_w
         return self.monitor_screen_widht
 

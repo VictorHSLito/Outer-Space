@@ -69,13 +69,15 @@ def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bul
             ship.center_ship()
 
 
-def update_screen(ai_settings, screen, stats, ship, aliens, bullets,
+def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets,
                   play_button):  # Função responsável pela atualizações de tela no jogo
     screen.fill(ai_settings.background_colour)
     for bullet in bullets.sprites():
         bullet.draw_bullet()
     ship.blitme()
     aliens.draw(screen)
+
+    sb.show_score()
 
     if not stats.game_active:
         play_button.draw_button()
