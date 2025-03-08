@@ -84,13 +84,13 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets,
     pygame.display.flip()
 
 
-def update_bullets(ai_settings, screen, ship, aliens,
-                   bullets):  # Função responsável pela atualizações de projéteis no jogo
+def update_bullets(ai_settings, screen, stats, sb,
+                   ship, aliens, bullets):  # Função responsável pela atualizações de projéteis no jogo
     bullets.update()
     for bullet in bullets.copy():  # Verifica se os projéteis saíram da tela
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)  # Caso sim, o laço "for" irá apagá-las para que não consuma muita memória
-    check_bullets_alien_collisions(ai_settings, screen, ship, aliens, bullets)
+    check_bullets_alien_collisions(ai_settings, screen, ship, stats, sb, aliens, bullets)
 
 
 def fire_bullets(ai_settings, screen, ship, bullets):  # Função que limitará os projéteis disparados pela espaçonave
@@ -170,9 +170,15 @@ def change_fleet_direction(ai_settings, aliens):
     ai_settings.fleet_direction *= - 1
 
 
-def check_bullets_alien_collisions(ai_settings, screen, ship, aliens, bullets):
+def check_bullets_alien_collisions(ai_settings, screen, ship, stats, sb, aliens, bullets):
     """Verifica a colisões entre projéteis e alienígenas"""
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+
+    if collisions:
+        for aliens in collisions.values():
+            stats.score += ai_settings.alien_points
+            sb.prep_score()
+
     if len(aliens) == 0:
         bullets.empty()
         ai_settings.increase_speed()
