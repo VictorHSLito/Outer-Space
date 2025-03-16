@@ -19,6 +19,7 @@ class Settings:  # Classe das principais configurações do jogo
 
         self.fleet_drop_speed = 10
         self.speedup_scale = 1.1
+        self.score_scale = 1.5
 
         self.initialize_dynamic_settings()
 
@@ -34,6 +35,7 @@ class Settings:  # Classe das principais configurações do jogo
         self.ship_speed_factor *= self.speedup_scale
         self.alien_speed_factor *= self.speedup_scale
         self.alien_speed_factor *= self.speedup_scale
+        self.alien_points = int(self.alien_points * self.score_scale)
 
     def get_dimensions_of_width(self):
         self.monitor_screen_widht = self.info.current_w
