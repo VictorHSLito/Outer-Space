@@ -37,14 +37,14 @@ def check_keyup_events(event, ship):  # Função responsável pela ações de "s
         ship.moving_down = False
 
 
-def check_events(ai_settings, screen, stats, play_button, ship, aliens,
+def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens,
                  bullets):  # Função responsável pela detecção de eventos
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y)
+            check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, mouse_x, mouse_y)
         elif event.type == pygame.KEYDOWN:
             check_keydown_events(event, ai_settings, screen, stats, ship,
                                  play_button, aliens,
@@ -53,7 +53,7 @@ def check_events(ai_settings, screen, stats, play_button, ship, aliens,
             check_keyup_events(event, ship)
 
 
-def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y):
+def check_play_button(ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, mouse_x, mouse_y):
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
     if button_clicked and not stats.game_active:
         ai_settings.initialize_dynamic_settings()
@@ -61,6 +61,10 @@ def check_play_button(ai_settings, screen, stats, play_button, ship, aliens, bul
             pygame.mouse.set_visible(False)
             stats.reset_stats()
             stats.game_active = True
+
+            sb.prep_score()
+            sb.prep_high_score()
+            sb.prep_level()
 
             aliens.empty()
             bullets.empty()
@@ -183,6 +187,9 @@ def check_bullets_alien_collisions(ai_settings, screen, ship, stats, sb, aliens,
     if len(aliens) == 0:
         bullets.empty()
         ai_settings.increase_speed()
+
+        stats.level += 1
+        sb.prep_level()
         create_fleet(ai_settings, screen, ship, aliens)
 
 
