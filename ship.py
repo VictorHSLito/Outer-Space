@@ -1,8 +1,10 @@
 import pygame
+from pygame.sprite import Sprite
 
 
-class Ship:
+class Ship(Sprite):
     def __init__(self, ai_settings, screen):
+        super(Ship, self).__init__()
         self.screen = screen
         self.ai_settings = ai_settings
         self.image = pygame.image.load('Images/Aeronave.png')
@@ -11,8 +13,8 @@ class Ship:
         self.rect.centerx = self.screen_rect.centerx
         self.rect.centery = self.screen_rect.centery
         self.rect.bottom = self.screen_rect.bottom
-        self.centerx = float(self.rect.centerx) # Define o centro x da espaçonave
-        self.centery = float(self.rect.centery) # Define o centro y da espaçonave
+        self.centerx = float(self.rect.centerx)  # Define o centro x da espaçonave
+        self.centery = float(self.rect.centery)  # Define o centro y da espaçonave
         self.moving_right = False
         self.moving_left = False
         self.moving_up = False
@@ -25,7 +27,7 @@ class Ship:
             self.centerx -= self.ai_settings.ship_speed_factor
         if self.moving_up and self.rect.top > self.screen_rect.top:  # Limita a espaçonave de ultrapassar a borda superior
             self.centery -= 1
-        if self.moving_down and self.rect.bottom < self.screen_rect.bottom: # Limita a espaçonave de ultrapassar a borda inferior
+        if self.moving_down and self.rect.bottom < self.screen_rect.bottom:  # Limita a espaçonave de ultrapassar a borda inferior
             self.centery += 1
 
         self.rect.centerx = self.centerx
